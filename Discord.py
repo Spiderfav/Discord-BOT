@@ -70,6 +70,6 @@ async def on_message(message):
 
         await message.channel.send("Done!")
 
-f = open("enf.txt", "r")
+f = open("env.txt", "r")
 contents = f.read()
 client.run(contents)
