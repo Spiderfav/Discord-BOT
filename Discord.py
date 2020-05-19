@@ -58,14 +58,17 @@ async def on_message(message):
 
     elif message.content.startswith('>players'):
 
-        await message.channel.send("Currently, these are the players in the tournament:")
+        await message.channel.send("Currently, there are "+ str(len(local_contestants)) +" players in the tournament:")
 
         for i in range(0,len(local_contestants)):
             await message.channel.send(local_contestants[i])
 
+    elif message.content.startswith('>purge'):
+        local_contestants.clear()
+        with open("contestants.txt", "wb") as fp:
+            pickle.dump(local_contestants, fp)
 
-
-
+        await message.channel.send("Done!")
 
 
 client.run('NzExNjQ4OTE1Mzc5OTc4MzUy.XsPSBA.o1sXHJA7u4XjbnwnRO4miVTYg4U')
