@@ -70,5 +70,6 @@ async def on_message(message):
 
         await message.channel.send("Done!")
 
-
-client.run('NzExNjQ4OTE1Mzc5OTc4MzUy.XsPSBA.o1sXHJA7u4XjbnwnRO4miVTYg4U')
+f = open("enf.txt", "r")
+contents = f.read()
+client.run(contents)
