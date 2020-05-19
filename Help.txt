@@ -1,0 +1,6 @@
+docker build -t #dockername# .
+docker run -it --rm --name #dockerappname# #dockername#
+docker run -d -it --rm --name #dockerappname# #dockername#
+docker rmi $(docker images | awk '{print $3}')
+docker stop #containername#
+docker rmi #imagename#
