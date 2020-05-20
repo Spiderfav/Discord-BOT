@@ -2,6 +2,9 @@ import discord
 import asyncio
 import pickle
 
+with open("contestantsID.txt", "rb") as fp:
+    local_contestantsID = pickle.load(fp)
+
 with open("contestants.txt", "rb") as fp:
     local_contestants = pickle.load(fp)
 
@@ -20,6 +23,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    b = message.author.id
     if message.content.startswith('>register'):
         if len(local_contestants) == 16:
             await message.channel.send("The tournament is full right now!")
@@ -30,24 +34,42 @@ async def on_message(message):
                 a = m[1].upper()
                 await message.channel.send(a+", will be your name in the tournament!")
                 local_contestants.append(a)
+                local_contestantsID.append(b)
                 with open("contestants.txt", "wb") as fp:
                     pickle.dump(local_contestants, fp)
+
+                with open("contestantsID.txt", "wb") as fp:
+                    pickle.dump(local_contestantsID, fp)
 
             except:
                 await message.channel.send("You did not give me a name!")
 
     elif message.content.startswith('>unregister'):
         m = message.content.split()
-        a = m[1].upper()
-        for x in range(0,len(local_contestants)):
-            if local_contestants[x] == a:
-                local_contestants.pop(x)
-                break
 
-        with open("contestants.txt", "wb") as fp:
-            pickle.dump(local_contestants, fp)
+        try:
+            a = m[1].upper()
 
-        await message.channel.send("Done!")
+            for x in range(0,len(local_contestants)):
+                if local_contestants[x] == a:
+                    if message.author.id == local_contestantsID[x]:
+                        local_contestants.pop(x)
+                        local_contestantsID.pop(x)
+
+
+                        with open("contestants.txt", "wb") as fp:
+                            pickle.dump(local_contestants, fp)
+
+                        with open("contestantsID.txt", "wb") as fp:
+                            pickle.dump(local_contestantsID, fp)
+
+                        await message.channel.send("Done!")
+
+                    else:
+                        await message.channel.send("That is not your registration!")
+
+        except:
+            await message.channel.send("You did not give me a name!")
 
 
     elif message.content.startswith('>help'):
@@ -64,11 +86,18 @@ async def on_message(message):
             await message.channel.send(local_contestants[i])
 
     elif message.content.startswith('>purge'):
-        local_contestants.clear()
-        with open("contestants.txt", "wb") as fp:
-            pickle.dump(local_contestants, fp)
+        if message.author.id == 340610417967497216:
+            local_contestants.clear()
+            local_contestantsID.clear()
 
-        await message.channel.send("Done!")
+            with open("contestants.txt", "wb") as fp:
+                pickle.dump(local_contestants, fp)
+
+            with open("contestantsID.txt", "wb") as fp:
+                pickle.dump(local_contestantsID, fp)
+
+            await message.channel.send("Done!")
+
 
 f = open("env.txt", "r")
 contents = f.read()
