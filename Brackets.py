@@ -11,4 +11,3 @@ if len(local_contestants) % 2 != 0:
     b = random.choice(local_contestants)
     local_contestants.pop(b)
     await message.channel.send(a+" VS "+B)
-    
