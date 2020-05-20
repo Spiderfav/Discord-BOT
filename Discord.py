@@ -86,7 +86,7 @@ async def on_message(message):
             await message.channel.send(local_contestants[i])
 
     elif message.content.startswith('>purge'):
-        if message.author.id == 340610417967497216:
+        if message.author.id == 340610417967497216 or message.author.id == 364830006334980096:
             local_contestants.clear()
             local_contestantsID.clear()
 
@@ -97,6 +97,8 @@ async def on_message(message):
                 pickle.dump(local_contestantsID, fp)
 
             await message.channel.send("Done!")
+
+
 
 
 f = open("env.txt", "r")
