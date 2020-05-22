@@ -122,6 +122,9 @@ async def on_message(message):
             await message.channel.send(local_contestants)
             await message.channel.send(local_contestantsID)
 
+    elif message.content.startswith('>timer'):
+        await message.channel.send("Tournaments are held every Friday at 5:00 PM BST.")
+
 
 
 
