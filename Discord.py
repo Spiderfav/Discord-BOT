@@ -98,6 +98,30 @@ async def on_message(message):
 
             await message.channel.send("Done!")
 
+    elif message.content.startswith('>delete'):
+        if message.author.id == 340610417967497216 or message.author.id == 364830006334980096:
+            m = message.content.split()
+            a = m[1].upper()
+
+            for l in range(0,len(local_contestants)):
+                if local_contestants[l] == a:
+                    local_contestants.pop(l)
+                    local_contestantsID.pop(l)
+
+
+                    with open("contestants.txt", "wb") as fp:
+                        pickle.dump(local_contestants, fp)
+
+                    with open("contestantsID.txt", "wb") as fp:
+                        pickle.dump(local_contestantsID, fp)
+
+                    await message.channel.send("Done!")
+
+    elif message.content.startswith('>data'):
+        if message.author.id == 340610417967497216 or message.author.id == 364830006334980096:
+            await message.channel.send(local_contestants)
+            await message.channel.send(local_contestantsID)
+
 
 
 
